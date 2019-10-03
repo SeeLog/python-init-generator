@@ -28,9 +28,40 @@ export class FileController {
             return dir;
         });
 
-        console.log(dirs);
+        return this.getParentPathArrayRecursive(this.uniqueArray(dirs), rootDir);
+    }
 
-        return this.uniqueArray(dirs);
+    private getParentPathArrayRecursive(pathDirs: Array<string>, stopPath: string): Array<string> {
+        /*
+            Get parent directories
+        */
+        let dirs = pathDirs.map((path: string) => {
+            return this.getParentPathRecursive(path, stopPath);
+        });
+
+        return this.uniqueArray(this.flatten(dirs));
+    }
+
+    private flatten(arr: Array<any>): Array<any> {
+        /*
+            flatten array
+        */
+        return [].concat(...arr);
+    }
+
+    private getParentPathRecursive(pathDir: string, stopPath: string): Array<string> {
+        /*
+            Get parent directories
+        */
+        let retArr = new Array<string>();
+
+        while (pathDir.length > 1 && pathDir !== stopPath) {
+            retArr.push(pathDir);
+
+            pathDir = path.dirname(pathDir);
+        }
+
+        return retArr;
     }
 
     private uniqueArray(array: Array<any>): Array<any> {
