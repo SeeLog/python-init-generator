@@ -9,6 +9,7 @@
 	"categories": [
 		"Other"
 	],
+	"license": "MIT",
 	"activationEvents": [
 		"onCommand:extension.generateInit"
 	],
@@ -17,7 +18,7 @@
 		"commands": [
 			{
 				"command": "extension.generateInit",
-				"title": "Generate __init__.py"
+				"title": "Python init Generator: Generate __init__.py"
 			}
 		]
 	},
