@@ -1,8 +1,6 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as chai from 'chai';
-import * as typemoq from 'typemoq';
 
 import {FileController} from '../../file-controller';
 
