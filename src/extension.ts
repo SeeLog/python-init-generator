@@ -16,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		const fileController = new FileController();
 		let rootPath = vscode.workspace.rootPath;
-		if (rootPath !== null) {
+		if (rootPath !== null && rootPath !== undefined) {
 			let count = await fileController.generateInitFiles(vscode.workspace.rootPath!);
 			vscode.window.showInformationMessage(`Python init Generator: Generate ${count} __init__.py file(s)`);
 		}
