@@ -6,9 +6,14 @@
 	"engines": {
 		"vscode": "^1.38.0"
 	},
+	"publisher": "SeeLog",
 	"categories": [
 		"Other"
 	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/SeeLog/python-init-generator"
+	},
 	"license": "MIT",
 	"activationEvents": [
 		"onCommand:extension.generateInit"
