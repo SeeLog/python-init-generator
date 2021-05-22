@@ -16,13 +16,13 @@
 	},
 	"license": "MIT",
 	"activationEvents": [
-		"onCommand:extension.generateInit"
+		"onCommand:python-init-generator.generateInit"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.generateInit",
+				"command": "python-init-generator.generateInit",
 				"title": "Python init Generator: Generate __init__.py"
 			}
 		]
