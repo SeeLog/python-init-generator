@@ -15,6 +15,8 @@ This extension generates Python `__init__.py` file(s) respectively and recursive
 MIT
 
 ## History
-YYYY.mm.dd
+YYYY.mm.dd(Timezone)
 
-2019.10.03 first release
+2021.06.05(JST) fix windows path problem. (#5)
+2021.06.04(JST) fix #1, sorry it took so long to fix.
+2019.10.03(JST) first release
