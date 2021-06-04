@@ -7,17 +7,17 @@ import {FileController} from './file-controller';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
+	
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('python-init-generator.generateInit', async () => {
+	const disposable = vscode.commands.registerCommand('python-init-generator.generateInit', async () => {
 		// The code you place here will be executed every time your command is executed
 
 		const fileController = new FileController();
-		let rootPath = vscode.workspace.rootPath;
+		const rootPath = vscode.workspace.workspaceFolders?.[0]!.uri.path;
 		if (rootPath !== null && rootPath !== undefined) {
-			let count = await fileController.generateInitFiles(vscode.workspace.rootPath!);
+			const count = await fileController.generateInitFiles(rootPath);
 			vscode.window.showInformationMessage(`Python init Generator: Generate ${count} __init__.py file(s)`);
 		}
 		else {
