@@ -18,5 +18,7 @@ MIT
 YYYY.mm.dd(Timezone)
 
 2021.06.05(JST) fix windows path problem. (see alse [#5](https://github.com/SeeLog/python-init-generator/pull/5))
+
 2021.06.04(JST) fix [#1](https://github.com/SeeLog/python-init-generator/issues/1), sorry it took so long to fix.
+
 2019.10.03(JST) first release
