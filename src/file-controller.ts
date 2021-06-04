@@ -98,9 +98,10 @@ export class FileController {
 
     public async generateInitFile(createDir: string): Promise<number> {
         let count = 0;
-        if (!fs.existsSync(path.join(createDir, "__init__.py"))) {
+        let init_path = path.join(createDir, "__init__.py");
+        if (!fs.existsSync(init_path)) {
             count++;
-            this.createFile(path.join(createDir, "__init__.py"));
+            this.createFile(init_path);
         }
 
         return count;
