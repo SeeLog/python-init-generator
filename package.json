@@ -31,6 +31,12 @@
 			}
 		],
 		"menus": {
+			"commandPalette": [
+				{
+					"command": "python-init-generator.generateInitFromLocation",
+					"when": "false"
+				}
+			],
 			"explorer/context": [
 				{
 					"command": "python-init-generator.generateInitFromLocation"
