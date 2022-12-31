@@ -24,8 +24,19 @@
 			{
 				"command": "python-init-generator.generateInit",
 				"title": "Python init Generator: Generate __init__.py"
+			},
+			{
+				"command": "python-init-generator.generateInitFromLocation",
+				"title": "Generate __init__.py from here"
 			}
-		]
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "python-init-generator.generateInitFromLocation"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
