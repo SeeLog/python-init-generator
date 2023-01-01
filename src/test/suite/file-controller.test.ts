@@ -114,4 +114,15 @@ suite("Execute commands", () => {
         assert.ok(!initExists(tmpStructure.tests.path));
         assert.ok(!initExists(tmpStructure.other.path));
     });
+
+    test("Generate __init__.py from context menu command on empty folder", async () => {
+        if (!fs.existsSync(tmpPath)) {
+            return;
+        }
+
+        fileController.fromContextMenu = true;
+        await fileController.generateInitFiles(tmpStructure.other.path);
+        assert.ok(!initExists(tmpStructure.other.path));
+
+    });
 });
