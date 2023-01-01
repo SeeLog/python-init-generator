@@ -77,7 +77,7 @@ const initExists = (dir: string) => {
     return fs.existsSync(path.join(dir, "__init__.py"));
 };
 
-suite.only("Execute commands", () => {
+suite("Execute commands", () => {
     setup("Cleanup __init__.py files in tmp folder", async () => {
         glob.sync(path.join(tmpPath, "/**/__init__.py")).map((file: string) => {
             fs.unlinkSync(file);
