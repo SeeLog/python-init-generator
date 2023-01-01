@@ -95,7 +95,7 @@ suite("Execute commands", () => {
             if (value.containsPy) {
                 assert.ok(initExists(value.path));
             } else {
-                assert.ok(!initExists(tmpStructure.other.path));
+                assert.ok(!initExists(value.path));
             }
         }
     });
