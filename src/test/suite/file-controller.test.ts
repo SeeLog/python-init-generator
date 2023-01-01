@@ -91,12 +91,9 @@ suite("Execute commands", () => {
         }
         await fileController.generateInitFiles(tmpPath);
 
-        for (const value of Object.values(tmpStructure)) {
-            if (value.containsPy) {
-                assert.ok(initExists(value.path));
-            } else {
-                assert.ok(!initExists(value.path));
-            }
+        for (const tmpPath of Object.values(tmpStructure)) {
+            const itExists = initExists(tmpPath.path);
+            assert.ok(tmpPath.containsPy ? itExists : !itExists);
         }
     });
 
