@@ -1,23 +1,35 @@
 # Python init Generator - Visual Studio Code Extension
+
 ## What is this?
+
 This extension generates Python `__init__.py` file(s) respectively and recursively.
 
 ## Demo & How to use
 
 ![Gif](https://github.com/SeeLog/python-init-generator/blob/demo_gif/demo.gif?raw=true)
 
+### From the Command Palette
+
 1. Open your workspace or directory.
 2. Press `Ctrl(Cmd) + Shift + P`
 3. Just select `Python init Generator: Generate __init__.py`
 4. Happy!
 
+### From the File Explorer menu
+
+1. Select a file or folder.
+   1. When selecting a file, its parent directory will be used as a starting point.
+2. Mouse right click and select: `Generate __init__.py from here`.
+
 ## License
+
 MIT
 
 ## History
+
 YYYY.mm.dd(Timezone)
 
-2021.06.05(JST) fix windows path problem. (see alse [#5](https://github.com/SeeLog/python-init-generator/pull/5))
+2021.06.05(JST) fix windows path problem. (see also [#5](https://github.com/SeeLog/python-init-generator/pull/5))
 
 2021.06.04(JST) fix [#1](https://github.com/SeeLog/python-init-generator/issues/1), sorry it took so long to fix.
 
