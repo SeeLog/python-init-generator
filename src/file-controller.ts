@@ -1,10 +1,11 @@
-import * as path from 'path';
-import * as fs from 'fs';
+import * as path from "path";
+import * as fs from "fs";
 
 var glob = require("glob");
 
-
 export class FileController {
+    fromContextMenu = false;
+
     public async createFile(filePath: string) {
         /*
             Create an empty file.
@@ -28,7 +29,14 @@ export class FileController {
             return dir;
         });
 
-        return this.getParentPathArrayRecursive(this.uniqueArray(dirs), rootDir);
+        dirs = this.uniqueArray(dirs);
+
+        // If we call the class from the context menu, there is no need to go further
+        if (this.fromContextMenu) {
+            return dirs;
+        }
+
+        return this.getParentPathArrayRecursive(dirs, rootDir);
     }
 
     private getParentPathArrayRecursive(pathDirs: Array<string>, stopPath: string): Array<string> {
