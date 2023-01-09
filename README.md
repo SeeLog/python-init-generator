@@ -29,8 +29,10 @@ MIT
 
 YYYY.mm.dd(Timezone)
 
-2021.06.05(JST) fix windows path problem. (see also [#5](https://github.com/SeeLog/python-init-generator/pull/5))
+2023.01.08(JST) Add the new ability to create init files from the context menu. (Thanks @sisoe24 [#8](https://github.com/SeeLog/python-init-generator/pull/8))
 
-2021.06.04(JST) fix [#1](https://github.com/SeeLog/python-init-generator/issues/1), sorry it took so long to fix.
+2021.06.05(JST) Fix windows path problem. (See also [#5](https://github.com/SeeLog/python-init-generator/pull/5))
 
-2019.10.03(JST) first release
+2021.06.04(JST) Fix [#1](https://github.com/SeeLog/python-init-generator/issues/1), sorry it took so long to fix.
+
+2019.10.03(JST) First release
