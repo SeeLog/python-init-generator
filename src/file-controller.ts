@@ -29,20 +29,18 @@ export class FileController {
         const files = await glob.sync(path.join(rootDir, `/**/*.${ext}`));
         const dirsSet = new Set<string>();
 
+        const excludeRegex = new RegExp(exclude.join('|'));
+
         files.forEach((file: string) => {
             const dir = path.dirname(file);
-
             // Only consider the relative path
-            const pathComponents = path.relative(rootDir, dir).split(path.sep);
-    
-            // Check if any component of the path is in the exclude list
-            const isExcluded = pathComponents.some(component => exclude.includes(component));
-    
-            if (!isExcluded) {
+            const relativeDir = path.relative(rootDir, dir);
+
+            // Check if the relative directory path matches the combined exclude regex
+            if (!excludeRegex.test(relativeDir)) {
                 dirsSet.add(dir);
             }
         });
-    
         const dirs = Array.from(dirsSet);
 
         // If we call the class from the context menu, there is no need to go further
