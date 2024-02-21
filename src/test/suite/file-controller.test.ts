@@ -51,6 +51,7 @@ const tmpStructure = {
     src: { path: path.join(tmpPath, "src"), containsPy: true },
     api: { path: path.join(tmpPath, "src", "api"), containsPy: true },
     tests: { path: path.join(tmpPath, "tests"), containsPy: true },
+    data: { path: path.join(tmpPath, "data"), containsPy: true },
 };
 
 /**
@@ -120,6 +121,24 @@ suite("Execute commands", () => {
         fileController.fromContextMenu = true;
         await fileController.generateInitFiles(tmpStructure.other.path);
         assert.ok(!initExists(tmpStructure.other.path));
+    });
 
+  test("Generate __init__.py but skip some folders", async () => {
+        if (!fs.existsSync(tmpPath)) {
+        return;
+        }
+
+        fileController.fromContextMenu = true;
+        const dirs = await fileController.getDirsWithExtension(tmpPath, "py", [
+        "src",
+        ]);
+
+        const sortArray = (a: Array<string>) =>
+        a.sort((a: string, b: string) => a.localeCompare(b));
+
+        assert.deepStrictEqual(
+        sortArray(dirs),
+        sortArray([tmpStructure.data.path, tmpStructure.tests.path])
+        );
     });
 });
