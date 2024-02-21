@@ -30,6 +30,18 @@
 				"title": "Generate __init__.py from here"
 			}
 		],
+		"configuration":[
+			{
+				"title": "Python Init Generator",
+				"properties": {
+					"pythonInitGenerator.ignoreDirectories": {
+						"default": [],
+						"type": "array",
+						"description": "A list of directories names to ignore"
+					}
+				}
+			}
+		],
 		"menus": {
 			"commandPalette": [
 				{
