@@ -21,6 +21,22 @@ This extension generates Python `__init__.py` file(s) respectively and recursive
    1. When selecting a file, its parent directory will be used as a starting point.
 2. Mouse right click and select: `Generate __init__.py from here`.
 
+## Configuration
+
+* `pythonInitGenerator.ignoreDirectories`: Regex pattern to ignore directories. 
+   Example:
+
+   ```json
+   {
+       "pythonInitGenerator.ignoreDirectories": [
+          "\\bdata\\b",
+          "share",
+          "local",
+      ]
+   }
+  ```
+  Note that values are treated as regex patterns so you need to escape special characters.
+
 ## License
 
 MIT
