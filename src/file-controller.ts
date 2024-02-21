@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 
-var glob = require("glob");
+let glob = require("glob");
 
 export class FileController {
     fromContextMenu = false;
