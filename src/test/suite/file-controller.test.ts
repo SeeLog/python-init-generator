@@ -49,6 +49,7 @@ const tmpPath = path.join(__dirname.replace("out", "src"), "tmp");
 const tmpStructure = {
     other: { path: path.join(tmpPath, "other"), containsPy: false },
     src: { path: path.join(tmpPath, "src"), containsPy: true },
+    src_old: { path: path.join(tmpPath, "src_old"), containsPy: true },
     api: { path: path.join(tmpPath, "src", "api"), containsPy: true },
     tests: { path: path.join(tmpPath, "tests"), containsPy: true },
     data: { path: path.join(tmpPath, "data"), containsPy: true },
@@ -127,12 +128,14 @@ suite("Execute commands", () => {
         assert.ok(!initExists(tmpStructure.other.path));
     });
 
-  test("Generate __init__.py but skip some folders", async () => {
+    test("Generate __init__.py but skip some folders", async () => {
         if (!fs.existsSync(tmpPath)) {
             return;
         }
 
         fileController.fromContextMenu = true;
+
+        // exclude: src, src_old
         const dirs = await fileController.getDirsWithExtension(tmpPath, "py", [
             "src",
         ]);
@@ -143,22 +146,21 @@ suite("Execute commands", () => {
         );
     });
 
-  test("Generate __init__.py but skip some folders using regex", async () => {
+    test("Generate __init__.py but skip some folders using regex", async () => {
         if (!fs.existsSync(tmpPath)) {
-        return;
+            return;
         }
 
         fileController.fromContextMenu = true;
+
+        // exclude: tests, api, data
         const dirs = await fileController.getDirsWithExtension(tmpPath, "py", [
             "te.+", "a[p|b]i", ".+ta$"
         ]);
 
         assert.deepStrictEqual(
             sortArray(dirs),
-            sortArray([tmpStructure.src.path])
+            sortArray([tmpStructure.src.path, tmpStructure.src_old.path])
         );
-      
     });
-
-
 });
