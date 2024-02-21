@@ -1,3 +1,4 @@
+import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 
@@ -17,19 +18,32 @@ export class FileController {
         /*
             Get all dirs which include *.py file(s).
         */
-        return await this.getDirsWithExtension(rootDir, "py");
+        const exclude = vscode.workspace.getConfiguration("pythonInitGenerator").get("ignoreDirectories") as Array<string>;
+        return await this.getDirsWithExtension(rootDir, "py", exclude);
     }
 
-    public async getDirsWithExtension(rootDir: string, ext: string): Promise<Array<string>> {
+    public async getDirsWithExtension(rootDir: string, ext: string, exclude: Array<string>): Promise<Array<string>> {
         /*
             Get all dirs which include *.{ext} file(s).
         */
-        let dirs = await glob.sync(path.join(rootDir, "/**/*." + ext)).map((file: string) => {
-            let dir = path.dirname(file);
-            return dir;
-        });
+        const files = await glob.sync(path.join(rootDir, `/**/*.${ext}`));
+        const dirsSet = new Set<string>();
 
-        dirs = this.uniqueArray(dirs);
+        files.forEach((file: string) => {
+            const dir = path.dirname(file);
+
+            // Only consider the relative path
+            const pathComponents = path.relative(rootDir, dir).split(path.sep);
+    
+            // Check if any component of the path is in the exclude list
+            const isExcluded = pathComponents.some(component => exclude.includes(component));
+    
+            if (!isExcluded) {
+                dirsSet.add(dir);
+            }
+        });
+    
+        const dirs = Array.from(dirsSet);
 
         // If we call the class from the context menu, there is no need to go further
         if (this.fromContextMenu) {
