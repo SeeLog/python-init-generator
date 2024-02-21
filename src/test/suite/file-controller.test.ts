@@ -78,6 +78,10 @@ const initExists = (dir: string) => {
     return fs.existsSync(path.join(dir, "__init__.py"));
 };
 
+const sortArray = (a: Array<string>) => {
+    return a.sort((a: string, b: string) => a.localeCompare(b));
+};
+
 suite("Execute commands", () => {
     setup("Cleanup __init__.py files in tmp folder", async () => {
         glob.sync(path.join(tmpPath, "/**/__init__.py")).map((file: string) => {
@@ -125,20 +129,36 @@ suite("Execute commands", () => {
 
   test("Generate __init__.py but skip some folders", async () => {
         if (!fs.existsSync(tmpPath)) {
+            return;
+        }
+
+        fileController.fromContextMenu = true;
+        const dirs = await fileController.getDirsWithExtension(tmpPath, "py", [
+            "src",
+        ]);
+
+        assert.deepStrictEqual(
+            sortArray(dirs),
+            sortArray([tmpStructure.data.path, tmpStructure.tests.path])
+        );
+    });
+
+  test("Generate __init__.py but skip some folders using regex", async () => {
+        if (!fs.existsSync(tmpPath)) {
         return;
         }
 
         fileController.fromContextMenu = true;
         const dirs = await fileController.getDirsWithExtension(tmpPath, "py", [
-        "src",
+            "te.+", "a[p|b]i", ".+ta$"
         ]);
 
-        const sortArray = (a: Array<string>) =>
-        a.sort((a: string, b: string) => a.localeCompare(b));
-
         assert.deepStrictEqual(
-        sortArray(dirs),
-        sortArray([tmpStructure.data.path, tmpStructure.tests.path])
+            sortArray(dirs),
+            sortArray([tmpStructure.src.path])
         );
+      
     });
+
+
 });
