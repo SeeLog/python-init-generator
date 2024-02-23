@@ -37,7 +37,7 @@ export class FileController {
 
     let excludeRegex: RegExp | undefined = undefined;
     if (exclude.length !== 0) {
-      const excludeRegex = new RegExp(exclude.join("|"));
+      excludeRegex = new RegExp(exclude.join("|"));
     }
 
     files.forEach((file: string) => {
