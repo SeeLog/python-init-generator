@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 
-import glob from 'glob';
+import { glob } from 'glob';
 
 export class FileController {
   fromContextMenu = false;
