@@ -23,18 +23,15 @@ This extension generates Python `__init__.py` file(s) respectively and recursive
 
 ## Configuration
 
-* `pythonInitGenerator.ignoreDirectories`: Regex pattern to ignore directories.
-   Example:
+- `pythonInitGenerator.ignoreDirectories`: Regex pattern to ignore directories.
+  Example:
 
-   ```json
-   {
-       "pythonInitGenerator.ignoreDirectories": [
-          "\\bdata\\b",
-          "share",
-          "local",
-      ]
-   }
+  ```json
+  {
+    "pythonInitGenerator.ignoreDirectories": ["\\bdata\\b", "share", "local"]
+  }
   ```
+
   Note that values are treated as regex patterns so you need to escape special characters.
 
 ## License
