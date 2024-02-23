@@ -32,10 +32,13 @@ export class FileController {
     /*
       Get all dirs which include *.{ext} file(s).
     */
-    const files = await glob.sync(path.join(rootDir, `/**/*.${ext}`));
+    const files = glob.sync(path.join(rootDir, `/**/*.${ext}`));
     const dirsSet = new Set<string>();
 
-    const excludeRegex = new RegExp(exclude.join("|"));
+    let excludeRegex: RegExp | undefined = undefined;
+    if (exclude.length !== 0) {
+      const excludeRegex = new RegExp(exclude.join("|"));
+    }
 
     files.forEach((file: string) => {
       const dir = path.dirname(file);
@@ -43,7 +46,7 @@ export class FileController {
       const relativeDir = path.relative(rootDir, dir);
 
       // Check if the relative directory path matches the combined exclude regex
-      if (!excludeRegex.test(relativeDir)) {
+      if (!excludeRegex?.test(relativeDir)) {
         dirsSet.add(dir);
       }
     });
