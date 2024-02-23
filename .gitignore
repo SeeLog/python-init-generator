@@ -5,3 +5,5 @@ node_modules
 
 demo.gif
 tmp
+.DS_Store
+
