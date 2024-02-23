@@ -23,7 +23,7 @@ This extension generates Python `__init__.py` file(s) respectively and recursive
 
 ## Configuration
 
-* `pythonInitGenerator.ignoreDirectories`: Regex pattern to ignore directories. 
+* `pythonInitGenerator.ignoreDirectories`: Regex pattern to ignore directories.
    Example:
 
    ```json
@@ -44,6 +44,7 @@ MIT
 ## History
 
 YYYY.mm.dd(Timezone)
+2024.02.24(JST) Add the new feature to ignore directories. (Thanks @sisoe24 [#17](https://github.com/SeeLog/python-init-generator/pull/17))
 
 2023.01.08(JST) Add the new ability to create init files from the context menu. (Thanks @sisoe24 [#8](https://github.com/SeeLog/python-init-generator/pull/8))
 
