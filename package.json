@@ -2,7 +2,7 @@
 	"name": "python-init-generator",
 	"displayName": "Python init Generator",
 	"description": "Generate Python __init__.py",
-	"version": "0.0.12",
+	"version": "0.0.13",
 	"engines": {
 		"vscode": "^1.74.0"
 	},
