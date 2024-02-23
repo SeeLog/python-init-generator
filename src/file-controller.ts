@@ -1,8 +1,8 @@
-import * as vscode from "vscode";
-import * as path from "path";
-import * as fs from "fs";
+import * as vscode from 'vscode';
+import * as path from 'path';
+import * as fs from 'fs';
 
-import glob = require("glob");
+import glob = require('glob');
 
 export class FileController {
   fromContextMenu = false;
@@ -11,24 +11,18 @@ export class FileController {
     /*
       Create an empty file.
     */
-    fs.writeFileSync(filePath, "");
+    fs.writeFileSync(filePath, '');
   }
 
   public async getPythonFileDirs(rootDir: string): Promise<Array<string>> {
     /*
       Get all dirs which include *.py file(s).
     */
-    const exclude = vscode.workspace
-      .getConfiguration("pythonInitGenerator")
-      .get("ignoreDirectories") as Array<string>;
-    return await this.getDirsWithExtension(rootDir, "py", exclude);
+    const exclude = vscode.workspace.getConfiguration('pythonInitGenerator').get('ignoreDirectories') as Array<string>;
+    return await this.getDirsWithExtension(rootDir, 'py', exclude);
   }
 
-  public async getDirsWithExtension(
-    rootDir: string,
-    ext: string,
-    exclude: Array<string>
-  ): Promise<Array<string>> {
+  public async getDirsWithExtension(rootDir: string, ext: string, exclude: Array<string>): Promise<Array<string>> {
     /*
       Get all dirs which include *.{ext} file(s).
     */
@@ -37,7 +31,7 @@ export class FileController {
 
     let excludeRegex: RegExp | undefined = undefined;
     if (exclude.length !== 0) {
-      excludeRegex = new RegExp(exclude.join("|"));
+      excludeRegex = new RegExp(exclude.join('|'));
     }
 
     files.forEach((file: string) => {
@@ -60,35 +54,29 @@ export class FileController {
     return this.getParentPathArrayRecursive(dirs, rootDir);
   }
 
-  private getParentPathArrayRecursive(
-    pathDirs: Array<string>,
-    stopPath: string
-  ): Array<string> {
+  private getParentPathArrayRecursive(pathDirs: Array<string>, stopPath: string): Array<string> {
     /*
       Get parent directories
     */
-    let dirs = pathDirs.map((path: string) => {
+    const dirs = pathDirs.map((path: string) => {
       return this.getParentPathRecursive(path, stopPath);
     });
 
     return this.uniqueArray(this.flatten(dirs));
   }
 
-  private flatten(arr: Array<any>): Array<any> {
+  private flatten<T>(arr: Array<Array<T>>): Array<T> {
     /*
       flatten array
     */
-    return [].concat(...arr);
+    return ([] as T[]).concat(...arr);
   }
 
-  private getParentPathRecursive(
-    pathDir: string,
-    stopPath: string
-  ): Array<string> {
+  private getParentPathRecursive(pathDir: string, stopPath: string): Array<string> {
     /*
       Get parent directories
     */
-    let retArr = new Array<string>();
+    const retArr = new Array<string>();
 
     while (pathDir.length > 1 && pathDir !== stopPath) {
       retArr.push(pathDir);
@@ -99,13 +87,13 @@ export class FileController {
     return retArr;
   }
 
-  private uniqueArray(array: Array<any>): Array<any> {
+  private uniqueArray<T>(array: Array<T>): Array<T> {
     /*
       Unique Array
     */
-    let uniqueSet = new Set<any>();
+    const uniqueSet = new Set<T>();
 
-    array.map((elm: any) => {
+    array.map((elm: T) => {
       uniqueSet.add(elm);
     });
 
@@ -116,29 +104,25 @@ export class FileController {
     /*
       Generate init files.
     */
-    let dirs = await this.getPythonFileDirs(rootDir);
+    const dirs = await this.getPythonFileDirs(rootDir);
 
-    let counts = await Promise.all(
+    const counts = await Promise.all(
       dirs.map((dir) => {
         return this.generateInitFile(dir);
       })
     );
 
-    let count = 0;
-
-    counts.forEach((c) => {
-      count += c;
-    });
+    const count = counts.reduce((a, b) => a + b, 0);
 
     return count;
   }
 
   public async generateInitFile(createDir: string): Promise<number> {
     let count = 0;
-    let init_path = path.join(createDir, "__init__.py");
-    if (!fs.existsSync(init_path)) {
+    const initPath = path.join(createDir, '__init__.py');
+    if (!fs.existsSync(initPath)) {
       count++;
-      this.createFile(init_path);
+      this.createFile(initPath);
     }
 
     return count;
