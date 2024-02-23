@@ -1,7 +1,8 @@
+import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 
-var glob = require("glob");
+let glob = require("glob");
 
 export class FileController {
     fromContextMenu = false;
@@ -17,19 +18,30 @@ export class FileController {
         /*
             Get all dirs which include *.py file(s).
         */
-        return await this.getDirsWithExtension(rootDir, "py");
+        const exclude = vscode.workspace.getConfiguration("pythonInitGenerator").get("ignoreDirectories") as Array<string>;
+        return await this.getDirsWithExtension(rootDir, "py", exclude);
     }
 
-    public async getDirsWithExtension(rootDir: string, ext: string): Promise<Array<string>> {
+    public async getDirsWithExtension(rootDir: string, ext: string, exclude: Array<string>): Promise<Array<string>> {
         /*
             Get all dirs which include *.{ext} file(s).
         */
-        let dirs = await glob.sync(path.join(rootDir, "/**/*." + ext)).map((file: string) => {
-            let dir = path.dirname(file);
-            return dir;
-        });
+        const files = await glob.sync(path.join(rootDir, `/**/*.${ext}`));
+        const dirsSet = new Set<string>();
 
-        dirs = this.uniqueArray(dirs);
+        const excludeRegex = new RegExp(exclude.join('|'));
+
+        files.forEach((file: string) => {
+            const dir = path.dirname(file);
+            // Only consider the relative path
+            const relativeDir = path.relative(rootDir, dir);
+
+            // Check if the relative directory path matches the combined exclude regex
+            if (!excludeRegex.test(relativeDir)) {
+                dirsSet.add(dir);
+            }
+        });
+        const dirs = Array.from(dirsSet);
 
         // If we call the class from the context menu, there is no need to go further
         if (this.fromContextMenu) {

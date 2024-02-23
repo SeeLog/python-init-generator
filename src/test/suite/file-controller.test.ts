@@ -13,16 +13,16 @@ suite('Extension Test Suite', () => {
     vscode.window.showInformationMessage('Start all tests.');
 
     test("unique Array test", () => {
-        assert.deepEqual((fileController as any).uniqueArray(["hoge", "hoge", "foo", "bar"]), ["hoge", "foo", "bar"]);
+        assert.deepStrictEqual((fileController as any).uniqueArray(["hoge", "hoge", "foo", "bar"]), ["hoge", "foo", "bar"]);
     });
 
     test("Get parent path recursive test", () => {
         let paths = (fileController as any).getParentPathRecursive("/hoge/test/bar", "/hoge");
-        assert.deepEqual(paths, ["/hoge/test/bar", "/hoge/test"]);
+        assert.deepStrictEqual(paths, ["/hoge/test/bar", "/hoge/test"]);
     });
 
     test("Flatten Array test", () => {
-        assert.deepEqual((fileController as any).flatten([
+        assert.deepStrictEqual((fileController as any).flatten([
                 ["hoge", "foo", "bar"],
                 ["hoge", "hoge"],
             ]),
@@ -32,7 +32,7 @@ suite('Extension Test Suite', () => {
 
     test("Get parent path recursive array test", () => {
         let paths = (fileController as any).getParentPathArrayRecursive(["/hoge/test/bar", "/hoge/test/foo/bar"], "/hoge");
-        assert.deepEqual(paths, ["/hoge/test/bar", "/hoge/test", "/hoge/test/foo/bar", "/hoge/test/foo"]);
+        assert.deepStrictEqual(paths, ["/hoge/test/bar", "/hoge/test", "/hoge/test/foo/bar", "/hoge/test/foo"]);
     });
 });
 
@@ -49,8 +49,10 @@ const tmpPath = path.join(__dirname.replace("out", "src"), "tmp");
 const tmpStructure = {
     other: { path: path.join(tmpPath, "other"), containsPy: false },
     src: { path: path.join(tmpPath, "src"), containsPy: true },
+    src_old: { path: path.join(tmpPath, "src_old"), containsPy: true },
     api: { path: path.join(tmpPath, "src", "api"), containsPy: true },
     tests: { path: path.join(tmpPath, "tests"), containsPy: true },
+    data: { path: path.join(tmpPath, "data"), containsPy: true },
 };
 
 /**
@@ -75,6 +77,10 @@ setup("Setup tmp folder", () => {
  */
 const initExists = (dir: string) => {
     return fs.existsSync(path.join(dir, "__init__.py"));
+};
+
+const sortArray = (a: Array<string>) => {
+    return a.sort((a: string, b: string) => a.localeCompare(b));
 };
 
 suite("Execute commands", () => {
@@ -120,6 +126,41 @@ suite("Execute commands", () => {
         fileController.fromContextMenu = true;
         await fileController.generateInitFiles(tmpStructure.other.path);
         assert.ok(!initExists(tmpStructure.other.path));
+    });
 
+    test("Generate __init__.py but skip some folders", async () => {
+        if (!fs.existsSync(tmpPath)) {
+            return;
+        }
+
+        fileController.fromContextMenu = true;
+
+        // exclude: src, src_old
+        const dirs = await fileController.getDirsWithExtension(tmpPath, "py", [
+            "src",
+        ]);
+
+        assert.deepStrictEqual(
+            sortArray(dirs),
+            sortArray([tmpStructure.data.path, tmpStructure.tests.path])
+        );
+    });
+
+    test("Generate __init__.py but skip some folders using regex", async () => {
+        if (!fs.existsSync(tmpPath)) {
+            return;
+        }
+
+        fileController.fromContextMenu = true;
+
+        // exclude: tests, api, data
+        const dirs = await fileController.getDirsWithExtension(tmpPath, "py", [
+            "te.+", "a[p|b]i", ".+ta$"
+        ]);
+
+        assert.deepStrictEqual(
+            sortArray(dirs),
+            sortArray([tmpStructure.src.path, tmpStructure.src_old.path])
+        );
     });
 });
